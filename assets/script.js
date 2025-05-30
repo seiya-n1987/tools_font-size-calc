@@ -1,4 +1,22 @@
 function calculateFontSizes() {
+  // すべてのinputからエラークラスを外す
+  const inputIds = [
+    'baseWidth', 'baseFontSize', 'subFontSize', 'maxFontSize', 'minFontSize', 'multiple'
+  ];
+  inputIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove('input-error');
+  });
+  document.querySelectorAll('.breakpoint').forEach(input => {
+    input.classList.remove('input-error');
+  });
+
+  // エラーまとめ用
+  const errorSummary = document.getElementById('error-summary');
+  errorSummary.innerHTML = '';
+  errorSummary.style.display = 'none';
+  let errorList = [];
+
   const baseWidth = Number(document.getElementById('baseWidth').value);
   const baseFontSize = Number(document.getElementById('baseFontSize').value);
   const subFontSize = Number(document.getElementById('subFontSize').value);
@@ -12,17 +30,47 @@ function calculateFontSizes() {
     .map(input => Number(input.value))
     .filter(n => !isNaN(n) && n > 0);
 
-  if (!baseWidth || !baseFontSize || !maxFontSize || !minFontSize) {
-    alert('すべての数値を正しく入力してください');
-    return;
+  let hasError = false;
+
+  if (!baseWidth) {
+    errorList.push('基準ディスプレイ横幅を入力してください');
+    document.getElementById('baseWidth').classList.add('input-error');
+    hasError = true;
+  }
+  if (!baseFontSize) {
+    errorList.push('基準フォントサイズを入力してください');
+    document.getElementById('baseFontSize').classList.add('input-error');
+    hasError = true;
+  }
+  if (!maxFontSize) {
+    errorList.push('最大フォントサイズを入力してください');
+    document.getElementById('maxFontSize').classList.add('input-error');
+    hasError = true;
+  }
+  if (!minFontSize) {
+    errorList.push('最小フォントサイズを入力してください');
+    document.getElementById('minFontSize').classList.add('input-error');
+    hasError = true;
   }
   if (breakpoints.length === 0) {
-    alert('ブレイクポイントを1つ以上入力してください');
-    return;
+    errorList.push('ブレイクポイントを1つ以上入力してください');
+    breakpointInputs.forEach(input => input.classList.add('input-error'));
+    hasError = true;
   }
   if (breakpoints.length > 5) {
-    alert('ブレイクポイントは最大5つまでです');
+    errorList.push('ブレイクポイントは最大5つまでです');
+    breakpointInputs.forEach(input => input.classList.add('input-error'));
+    hasError = true;
+  }
+
+  if (hasError) {
+    errorSummary.innerHTML = '<ul style="margin:0;padding-left:1.2em;">' + errorList.map(e => `<li>${e}</li>`).join('') + '</ul>';
+    errorSummary.style.display = 'block';
+    document.getElementById('resultTable').style.display = 'none';
     return;
+  } else {
+    errorSummary.innerHTML = '';
+    errorSummary.style.display = 'none';
   }
 
   // サブフォント比率
