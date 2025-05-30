@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>フォントサイズ計算ツール</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<h1>フォントサイズ計算ツール  </h1>
+
+<div class="input-flex">
+  <div class="input-left">
+    <label><span class="label-label"><span class="label-dot required"></span>基準ディスプレイ横幅(px)</span>
+      <input type="number" id="baseWidth" value="1920" />
+    </label>
+    <label><span class="label-label"><span class="label-dot required"></span>基準フォントサイズ(px)</span>
+      <input type="number" id="baseFontSize" value="144" />
+    </label>
+    <label><span class="label-label"><span class="label-dot optional"></span>サブフォントサイズ(px)</span>
+      <input type="number" id="subFontSize" />
+    </label>
+    <label><span class="label-label"><span class="label-dot required"></span>最大フォントサイズ(px)</span>
+      <input type="number" id="maxFontSize" value="160" />
+    </label>
+    <label><span class="label-label"><span class="label-dot required"></span>最小フォントサイズ(px)</span>
+      <input type="number" id="minFontSize" value="12" />
+    </label>
+    <label><span class="label-label"><span class="label-dot optional"></span>倍数指定(px)</span>
+      <input type="number" id="multiple" min="1" step="1" />
+    </label>
+  </div>
+  <div class="input-right">
+    <label><span class="label-dot required"></span>ブレイクポイント（最大5つ）</label>
+    <div id="breakpointsInputs">
+      <input type="number" class="breakpoint" placeholder="例: 1000" value="1280" />
+      <input type="number" class="breakpoint" placeholder="例: 840" />
+      <input type="number" class="breakpoint" placeholder="例: 540" />
+      <input type="number" class="breakpoint" placeholder="例: 320" />
+      <input type="number" class="breakpoint" placeholder="例: 280" />
+    </div>
+  </div>
+</div>
+
+<div class="result-area">
+  <table id="resultTable" style="display:none;">
+    <thead>
+      <tr>
+        <th>ブレイクポイント(px)</th>
+        <th>計算フォントサイズ(px)</th>
+        <th>サブフォントサイズ(px)</th>
+      </tr>
+    </thead>
+    <tbody id="resultBody"></tbody>
+  </table>
+</div>
+
+<script src="assets/script.js"></script>
+</body>
+</html>
