@@ -1,3 +1,88 @@
+// Google Fonts Picker対応
+let selectedFont = 'Noto Sans JP'; // デフォルト
+
+// プレビューのフォントサイズをウィンドウ幅に応じて切り替える
+let responsiveFontData = [];
+
+function updatePreviewArea(breakpoints, fontSizes, fontFamily) {
+  const previewArea = document.getElementById('previewArea');
+  // プレビューサンプルを格納する専用divを用意
+  let samplesDiv = document.getElementById('previewSamples');
+  if (!samplesDiv) {
+    samplesDiv = document.createElement('div');
+    samplesDiv.id = 'previewSamples';
+    previewArea.appendChild(samplesDiv);
+  }
+  samplesDiv.innerHTML = '';
+  if (!breakpoints.length || !fontSizes.length) return;
+  breakpoints.forEach((bp, i) => {
+    const size = fontSizes[i];
+    const sample = document.createElement('div');
+    sample.className = 'preview-sample';
+    const label = document.createElement('div');
+    label.className = 'preview-label';
+    label.textContent = `BP: ${bp}px / ${size}px`;
+    const text = document.createElement('div');
+    text.className = 'preview-text';
+    text.textContent = 'Aa あいう Font Preview';
+    text.style.fontSize = size + 'px';
+    text.style.fontFamily = `'${fontFamily}', sans-serif`;
+    sample.appendChild(label);
+    sample.appendChild(text);
+    samplesDiv.appendChild(sample);
+  });
+}
+
+function updateResponsivePreview(fontFamily) {
+  const previewArea = document.getElementById('previewArea');
+  let preview = document.getElementById('responsivePreview');
+  if (!preview) {
+    preview = document.createElement('div');
+    preview.id = 'responsivePreview';
+    preview.className = 'preview-text';
+    previewArea.appendChild(preview);
+  }
+  // サブフォント用プレビュー
+  let subPreview = document.getElementById('responsiveSubPreview');
+  if (!subPreview) {
+    subPreview = document.createElement('div');
+    subPreview.id = 'responsiveSubPreview';
+    subPreview.className = 'preview-text';
+    subPreview.style.marginTop = '0.5em';
+    previewArea.appendChild(subPreview);
+  }
+  // ウィンドウ幅に合うブレイクポイントを探す
+  const w = window.innerWidth;
+  let size = null;
+  let subSize = null;
+  if (responsiveFontData.length) {
+    for (let i = 0; i < responsiveFontData.length; i++) {
+      if (w >= responsiveFontData[i].bp) {
+        size = responsiveFontData[i].size;
+        subSize = responsiveFontData[i].subSize;
+        break;
+      }
+    }
+    if (size === null) {
+      size = responsiveFontData[responsiveFontData.length - 1].size;
+      subSize = responsiveFontData[responsiveFontData.length - 1].subSize;
+    }
+  }
+  preview.textContent = 'Aa あいう Font Preview';
+  preview.style.fontFamily = `'${fontFamily}', sans-serif`;
+  preview.style.fontSize = size ? size + 'px' : '';
+
+  // サブフォントサイズがある場合のみ表示
+  if (subSize) {
+    subPreview.textContent = 'Aa あいう SubFont Preview';
+    subPreview.style.fontFamily = `'${fontFamily}', sans-serif`;
+    subPreview.style.fontSize = subSize + 'px';
+    subPreview.style.display = '';
+  } else {
+    subPreview.style.display = 'none';
+  }
+}
+
 function calculateFontSizes() {
   // すべてのinputからエラークラスを外す
   const inputIds = [
@@ -79,43 +164,45 @@ function calculateFontSizes() {
   const tbody = document.getElementById('resultBody');
   tbody.innerHTML = '';
 
+  // レスポンシブ用データ
+  responsiveFontData = [];
+
   breakpoints.forEach(bp => {
     let calcSize = baseFontSize * (bp / baseWidth);
     if (calcSize > maxFontSize) calcSize = maxFontSize;
     if (calcSize < minFontSize) calcSize = minFontSize;
-
-    // 小数点は切り上げで整数化（必要に応じて変更可）
     calcSize = Math.ceil(calcSize);
-
-    // 倍数指定があれば最も近い倍数に丸める
     if (!isNaN(multiple) && multiple > 0) {
       calcSize = Math.round(calcSize / multiple) * multiple;
     }
-
-    // サブフォントサイズの計算
-    let subCalcSize = '';
+    let subCalcSize = null;
     if (subFontRatio) {
       subCalcSize = Math.ceil(calcSize * subFontRatio);
       if (!isNaN(multiple) && multiple > 0) {
         subCalcSize = Math.round(subCalcSize / multiple) * multiple;
       }
     }
-
+    responsiveFontData.push({ bp, size: calcSize, subSize: subCalcSize });
     const tr = document.createElement('tr');
     const tdBp = document.createElement('td');
     tdBp.textContent = bp;
     const tdSize = document.createElement('td');
     tdSize.textContent = calcSize;
     const tdSub = document.createElement('td');
-    tdSub.textContent = subCalcSize;
-
+    tdSub.textContent = subCalcSize || '';
     tr.appendChild(tdBp);
     tr.appendChild(tdSize);
     tr.appendChild(tdSub);
     tbody.appendChild(tr);
   });
 
+  // ブレイクポイント降順にソート
+  responsiveFontData.sort((a, b) => b.bp - a.bp);
+
   document.getElementById('resultTable').style.display = 'table';
+
+  // Google Fonts Pickerで選択されたフォント名を使う
+  updateResponsivePreview(selectedFont);
 }
 
 function addRealtimeEvents() {
@@ -153,4 +240,30 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // Google Fonts Picker初期化
+  if (window.jQuery && $('#fontPicker').fontpicker) {
+    $('#fontPicker').fontpicker({
+      // 日本語フォントも含めたい場合はfamiliesで追加可能
+      families: [
+        'Noto Sans JP', 'Roboto', 'Merriweather', 'Montserrat', 'Oswald', 'Lato', 'Open Sans', 'Raleway', 'M PLUS 1p', 'Sawarabi Gothic', 'Kosugi Maru', 'Shippori Mincho', 'Yuji Syuku', 'Zen Maru Gothic'
+      ],
+      // デフォルト
+      pickertype: 'full',
+      lazyLoad: true,
+      sort: 'popularity',
+      search: true
+    });
+    $('#fontPicker').on('change', function(e) {
+      selectedFont = $(this).val() || 'Noto Sans JP';
+      calculateFontSizes();
+    });
+    // 初期値
+    $('#fontPicker').val(selectedFont);
+    $('#fontPicker').trigger('change');
+  }
+
+  window.addEventListener('resize', () => {
+    updateResponsivePreview(selectedFont);
+  });
 }); 

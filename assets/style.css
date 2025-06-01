@@ -1,4 +1,4 @@
-body { font-family: Arial, sans-serif; max-width: 800px; margin: 2rem auto; background: #f8fafc; color: #1e293b; }
+body { font-family: Arial, sans-serif; max-width: 840px; margin: 2rem auto; padding: 0 1rem; background: #f8fafc; color: #1e293b; }
 h1 { font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem; letter-spacing: 0.01em; }
 label {
   font-size: 0.98rem;
@@ -241,4 +241,52 @@ td {
 }
 #helpIcon:hover svg text {
   fill: #334155;
+}
+.preview-area {
+  margin-top: 2rem;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2em;
+}
+.preview-sample {
+  display: flex;
+  align-items: center;
+  gap: 1.5em;
+  padding: 0.7em 0.5em;
+  border-bottom: 1px solid #f1f5f9;
+}
+.preview-sample:last-child {
+  border-bottom: none;
+}
+.preview-label {
+  min-width: 120px;
+  color: #64748b;
+  font-size: 0.98em;
+}
+.preview-text {
+  color: #1e293b;
+  background: #f8fafc;
+  border-radius: 0.4em;
+  padding: 0.2em 0.7em;
+  min-height: 1.5em;
+  display: flex;
+  align-items: center;
+}
+#responsivePreview, #responsiveSubPreview {
+  background: none;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+  color: #1e293b;
+  display: block;
+  line-height: 1.2;
+}
+#responsiveSubPreview {
+  color: #64748b;
 } 

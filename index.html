@@ -4,7 +4,10 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>フォントサイズ計算ツール</title>
+<link rel="stylesheet" href="assets/uaplus.css">
 <link rel="stylesheet" href="assets/style.css">
+<!-- Google Fonts Picker用CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-fontpicker/1.9/jquery.fontpicker.min.css">
 </head>
 <body>
 
@@ -63,11 +66,11 @@
   <div class="input-right">
     <label><span class="label-dot required"></span>ブレイクポイント（最大5つ）</label>
     <div id="breakpointsInputs">
-      <input type="number" class="breakpoint" placeholder="例: 1000" value="1280" />
-      <input type="number" class="breakpoint" placeholder="例: 840" />
-      <input type="number" class="breakpoint" placeholder="例: 540" />
-      <input type="number" class="breakpoint" placeholder="例: 320" />
-      <input type="number" class="breakpoint" placeholder="例: 280" />
+      <input type="number" class="breakpoint" value="1280" />
+      <input type="number" class="breakpoint" value="768"/>
+      <input type="number" class="breakpoint" value="480"/>
+      <input type="number" class="breakpoint" />
+      <input type="number" class="breakpoint" />
     </div>
   </div>
 </div>
@@ -86,6 +89,16 @@
   </table>
 </div>
 
+<!-- プレビューエリア -->
+<div id="previewArea" class="preview-area">
+  <label style="margin-bottom:1em;"><span class="label-label"><span class="label-dot required"></span>フォントファミリー</span>
+    <input type="text" id="fontPicker" />
+  </label>
+</div>
+
+<!-- Google Fonts Picker用JS -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-fontpicker/1.9/jquery.fontpicker.min.js"></script>
 <script src="assets/script.js"></script>
 </body>
 </html>
