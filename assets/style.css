@@ -176,4 +176,69 @@ td {
     font-size: 0.95rem;
     padding: 0.5rem;
   }
+}
+
+/* モーダルウィンドウ */
+.modal {
+  display: none; /* JSで制御 */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+  background-color: rgba(30,41,59,0.35);
+  transition: opacity 0.2s;
+}
+.modal-content {
+  background-color: #fff;
+  margin: 8% auto;
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  width: 90%;
+  max-width: 800px;
+  box-shadow: 0 4px 24px 0 #0002;
+  position: relative;
+  animation: modalFadeIn 0.2s;
+}
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: translateY(-30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.close {
+  color: #888;
+  position: absolute;
+  top: 1.1rem;
+  right: 1.2rem;
+  font-size: 1.7rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.close:hover {
+  color: #ef4444;
+}
+#helpIcon {
+  display: inline-block;
+  cursor: pointer;
+  margin-left: 6px;
+  vertical-align: middle;
+  width: 22px;
+  height: 22px;
+  line-height: 1;
+  transition: filter 0.2s;
+}
+#helpIcon svg {
+  width: 22px;
+  height: 22px;
+  display: block;
+}
+#helpIcon:hover svg circle {
+  fill: #e5e7eb;
+  stroke: #94a3b8;
+}
+#helpIcon:hover svg text {
+  fill: #334155;
 } 

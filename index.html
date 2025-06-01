@@ -8,7 +8,36 @@
 </head>
 <body>
 
-<h1>フォントサイズ計算ツール  </h1>
+<h1>フォントサイズ計算ツール  
+  <span id="helpIcon" title="使い方を表示">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="11" cy="11" r="10" fill="#f3f4f6" stroke="#cbd5e1" stroke-width="1.5"/>
+      <text x="11" y="16" text-anchor="middle" font-size="13" font-family="Arial, sans-serif" fill="#64748b" font-weight="bold">?</text>
+    </svg>
+  </span>
+</h1>
+
+<!-- モーダルウィンドウ -->
+<div id="helpModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <span class="close" id="closeModalBtn">&times;</span>
+    <h2>使い方・計算仕様</h2>
+    <ul style="margin-top:1em;">
+      <li>「基準ディスプレイ横幅(px)」と「基準フォントサイズ(px)」を入力してください。<br>例：1920pxのディスプレイで144pxのフォントサイズなど。</li>
+      <li>「最大フォントサイズ」「最小フォントサイズ」は各ブレイクポイントでの計算結果の上限・下限になります。</li>
+      <li>「サブフォントサイズ」は任意で指定できます。指定した場合、基準フォントサイズに対する比率で各ブレイクポイントごとにサブフォントサイズも自動計算されます。</li>
+      <li>「倍数指定」は、計算結果を指定した倍数の近似値に丸めます（例：4を指定すると4の倍数に）。</li>
+      <li>「ブレイクポイント」は、レスポンシブ対応したい画面幅(px)を最大5つまで指定できます。</li>
+      <li>計算式：<br>
+        <span style="font-size:0.98em; color:#334155;">各ブレイクポイントごとに<br>
+        <b>計算フォントサイズ = 基準フォントサイズ × (ブレイクポイント ÷ 基準ディスプレイ横幅)</b><br>
+        で算出し、最大・最小値で制限、倍数指定があれば丸めます。</span>
+      </li>
+      <li>入力内容に応じて下部に計算結果が自動で表示されます。</li>
+      <li>？アイコンをクリックするとこの説明が再度表示されます。</li>
+    </ul>
+  </div>
+</div>
 
 <div class="input-flex">
   <div class="input-left">

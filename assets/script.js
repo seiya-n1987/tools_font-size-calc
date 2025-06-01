@@ -134,4 +134,23 @@ function addRealtimeEvents() {
 document.addEventListener('DOMContentLoaded', () => {
   addRealtimeEvents();
   calculateFontSizes(); // 初期表示
+
+  // モーダル制御
+  const helpIcon = document.getElementById('helpIcon');
+  const helpModal = document.getElementById('helpModal');
+  const closeModalBtn = document.getElementById('closeModalBtn');
+  if (helpIcon && helpModal && closeModalBtn) {
+    helpIcon.addEventListener('click', () => {
+      helpModal.style.display = 'block';
+    });
+    closeModalBtn.addEventListener('click', () => {
+      helpModal.style.display = 'none';
+    });
+    // モーダル外クリックで閉じる
+    window.addEventListener('click', (e) => {
+      if (e.target === helpModal) {
+        helpModal.style.display = 'none';
+      }
+    });
+  }
 }); 
